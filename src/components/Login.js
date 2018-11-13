@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Tasks from './components/Tasks';
-import './App.css';
+import Tasks from './Tasks';
 
-class App extends Component {
+class Login extends Component {
   constructor(){
     super();
     this.state = {
@@ -38,14 +37,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-          <h1>
-            Cloisonnage CentraleSupélec
-          </h1>
-          <Tasks tasks={this.state.tasks}/>
+      <div className="Login">
+          THIS IS LOGIN
       </div>
     );
   }
 }
 
-export default App;
+export default Login;

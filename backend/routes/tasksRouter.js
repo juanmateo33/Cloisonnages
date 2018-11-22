@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+var authenticate = require('../authenticate');
 
 const Tasks = require('../models/tasks');
 
@@ -9,7 +10,7 @@ const taskRouter = express.Router();
 taskRouter.use(bodyParser.json());
 
 taskRouter.route('/')
-.get((req,res,next) => {
+.get(authenticate.verifyUser, (req,res,next) => {
     Tasks.find({})
     .then((tasks) => {
         res.statusCode = 200;
@@ -18,7 +19,7 @@ taskRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req,res,next) => {
+.post(authenticate.verifyUser, (req,res,next) => {
     Tasks.create(req.body)
     .then((task) => {
         console.log('Task Created',task);
@@ -28,11 +29,11 @@ taskRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.put((req,res,next) => {
+.put(authenticate.verifyUser, (req,res,next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /tasks');
 })
-.delete((req,res,next) => {
+.delete(authenticate.verifyUser, (req,res,next) => {
     Tasks.remove({})
     .then((resp) => {
         res.statusCode = 200;
@@ -43,7 +44,7 @@ taskRouter.route('/')
 });
 
 taskRouter.route('/:taskId')
-.get((req,res,next) => {
+.get(authenticate.verifyUser, (req,res,next) => {
     Tasks.findById(req.params.taskId)
     .then((task) => {
         res.statusCode = 200;
@@ -52,11 +53,11 @@ taskRouter.route('/:taskId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req,res,next) => {
+.post(authenticate.verifyUser, (req,res,next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /tasks/' + req.params.taskId);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
         $set: req.body
     }, { new: true })
@@ -67,7 +68,7 @@ taskRouter.route('/:taskId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req,res,next) => {
+.delete(authenticate.verifyUser, (req,res,next) => {
     Tasks.findByIdAndRemove(req.params.taskId)
     .then((resp) => {
         res.statusCode = 200;

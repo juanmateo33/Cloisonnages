@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Tasks from './Tasks';
 
 class Login extends Component {
   constructor(){

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Tasks from './Tasks';
 
 class About extends Component {
   constructor(){

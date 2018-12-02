@@ -27,13 +27,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+//Middlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser('12345-67890-09876-54321'));
 
+//passport strategy (auth)
 app.use(passport.initialize());
 
+//link to routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

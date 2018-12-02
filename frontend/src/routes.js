@@ -1,32 +1,34 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
+
 import App from './App';
 import Login from './components/Login';
 import About from './components/About';
 import Contact from './components/Contact';
 
-import NavigationBar from './components/NavigationBar';
+import NavBar from './components/NavBar/index';
 
-let links = [
-    { label: 'Cloisonnages', link: '/', active: true },
-    { label: 'Login', link: 'login' },
-    { label: 'About', link: 'about' },
-    { label: 'Contact', link: 'contact' },
-  ];
+
+
+let userInfos = 
+    { firstName: 'John-Evan', lastName: 'Karcenty' };
+    console.log(userInfos);
 
 const AppRoutes = () =>
-    <div>
-        <h2>This will be a Navigation Bar</h2>
-        <div className="container center">
-        <NavigationBar links={links}/>
-      </div>
+    
+    <div className="h-100">
+        <div>
+        <NavBar userInfos={userInfos}/>
+        </div>
+        <section>
         <Switch>    
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route path="/login" component={Login} />
             <Route path="/" component={App} />
         </Switch>
+        </section>
     </div>
 
 

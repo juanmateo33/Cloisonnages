@@ -11,11 +11,7 @@ var taskSchema = new Schema({
         required: true
     },
     day: {
-        type: String,
-        required: true
-    },
-    hour: {
-        type: String,
+        type: Date,
         required: true
     }
 });

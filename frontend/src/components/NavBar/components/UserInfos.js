@@ -24,7 +24,7 @@ export default ({ userInfos }) => {
         className="dropdown-menu dropdown-menu-right"
         aria-labelledby="navbarDropdownMenuLink"
       >
-        <Link to="/src/components/logout/" className="dropdown-item">
+        <Link to="/logout" className="dropdown-item">
           Déconnexion
         </Link> 
       </div>

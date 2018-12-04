@@ -1,20 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class About extends Component {
-  constructor(){
-    super();
-    this.state = {
-      tasks: []
-    }
-  }
-
-  render() {
+function About(props) {
     return (
       <div className="About">
-          THIS IS ABOUT
+          About
       </div>
     );
-  }
 }
 
+
 export default About;
+

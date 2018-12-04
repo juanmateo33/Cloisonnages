@@ -1,52 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+
 import Tasks from './components/Tasks';
-import './App.css';
+import Login from './components/Login';
+import Logout from './components/Logout';
+
+import About from './components/About';
+import Contact from './components/Contact';
+import Help from './components/Help';
+
+import NavBar from './components/NavBar/index';
 
 
-class App extends Component {
-  constructor(){
-    super();
-    this.state = {
-      tasks: []
-    }
-  }
 
-  componentWillMount(){
-    this.setState({tasks: [
-      {
-        id: '1',
-        salle: 'EF104',
-        action: 'Cloisonnage',
-        day: '12/03',
-        hour: '12:20h'
-      },
-      {
-        id: '2',
-        salle: 'EF104',
-        action: 'Decloisonnage',
-        day: '12/03',
-        hour: '15:20h'
-      },
-      {
-        id: '3',
-        salle: 'EF004',
-        action: 'Cloisonnage',
-        day: '14/04',
-        hour: '18:20h'
-      }
-    ]})
-  }
+let userInfos = 
+    { firstName: 'John-Evan', lastName: 'Karcenty' };
+    console.log(userInfos);
 
-  render() {
-    return (
-      <div className="App">
-          <h1>
-            Cloisonnage CentraleSupélec
-          </h1>
-          <Tasks tasks={this.state.tasks}/>
-      </div>
-    );
-  }
-}
+const AppRoutes = () =>
+    
+    <div className="h-100">
+        <div>
+        <NavBar userInfos={userInfos}/>
+        </div>
+        <section>
+        <Switch>
+            <Route path="/tasks" component={Tasks} />   
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/help" component={Help} />
+            <Route path="/login" component={Login} />
+            <Route path="/logout" component={Logout} />
 
-export default App;
+
+
+            <Route path="/login" component={Login} />
+            <Redirect from="/" to="/tasks" />
+        </Switch>
+        </section>
+    </div>
+
+
+
+export default AppRoutes;

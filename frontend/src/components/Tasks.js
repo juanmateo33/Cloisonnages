@@ -3,6 +3,13 @@ import TaskItem from './TaskItem';
 
 class Tasks extends Component {
 
+  constructor() {
+    super();
+    this.state = { tasks: []}
+  }
+
+
+
   componentWillMount(){
     this.setState({tasks: [
       {
@@ -31,9 +38,8 @@ class Tasks extends Component {
   
   render() {
     let taskItems;
-    if(this.props.tasks){
-      taskItems = this.props.tasks.map(task =>{
-        console.log(task);
+    if(this.state.tasks){
+      taskItems = this.state.tasks.map(task =>{
         return(
           <TaskItem key={task.id} task={task} />
         )
@@ -41,7 +47,7 @@ class Tasks extends Component {
     }
     return (
       <div className="Tasks">
-          <h3>Next cloisonnages</h3>
+          <h3>Tâches à réaliser</h3>
           {taskItems}
       </div>
     );

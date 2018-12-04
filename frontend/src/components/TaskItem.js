@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class TaskItem extends Component {
-
-  render() {
+function TaskItem(props) {
     return (
       <li className="Task">
-      {this.props.task.salle} - {this.props.task.action} - {this.props.task.day} - {this.props.task.hour}
+      {props.task.salle} - {props.task.action} - {props.task.day} - {props.task.hour}
       </li>
     );
-  }
 }
+
 
 export default TaskItem;

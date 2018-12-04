@@ -11,7 +11,7 @@ taskRouter.use(bodyParser.json());
 
 taskRouter.route('/')
 .get(authenticate.verifyUser, (req,res,next) => {
-    Tasks.find({})
+    Tasks.find(req.query)
     .then((tasks) => {
         res.statusCode = 200;
         res.setHeader('Content-Type','application/json');
@@ -23,7 +23,7 @@ taskRouter.route('/')
     Tasks.create(req.body)
     .then((task) => {
         console.log('Task Created',task);
-        res.statusCode = 200;
+        res.statusCode = 201;
         res.setHeader('Content-Type','application/json');
         res.json(task);
     }, (err) => next(err))
@@ -68,6 +68,7 @@ taskRouter.route('/:taskId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
+//use Joi/Ajv (JSON validators)
 .delete(authenticate.verifyUser, (req,res,next) => {
     Tasks.findByIdAndRemove(req.params.taskId)
     .then((resp) => {

@@ -10,7 +10,7 @@ const taskRouter = express.Router();
 taskRouter.use(bodyParser.json());
 
 taskRouter.route('/')
-.get(authenticate.verifyUser, (req,res,next) => {
+.get( (req,res,next) => {
     Tasks.find(req.query)
     .then((tasks) => {
         res.statusCode = 200;

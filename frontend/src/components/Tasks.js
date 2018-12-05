@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
+import axios from 'axios';
+
 require('react-datetime');
 
 class Tasks extends Component {
@@ -8,9 +10,16 @@ class Tasks extends Component {
     super();
     this.state = { tasks: []}
   }
-
-
-
+///*
+  componentWillMount(){
+    axios.get('/tasks')
+    .then(res => {
+      this.setState({tasks: res.data });
+      console.log(this.state.tasks);
+    })
+  }
+//*/
+/* 
   componentWillMount(){
     this.setState({tasks: [
       {
@@ -39,7 +48,7 @@ class Tasks extends Component {
       }
     ]})
   }
-  
+*/
   render() {
     let taskItems;
     if(this.state.tasks){

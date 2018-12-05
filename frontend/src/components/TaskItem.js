@@ -2,8 +2,10 @@ import React from 'react';
 
 
 function TaskItem(props) {
-    const start = props.task.start;
+    const beginning = props.task.beginning;
+    var myBeginning = new Date(beginning);
     const end = props.task.end;
+    var myEnd = new Date(end);
     const done = props.task.done? "done" : "pending";
     
     function renderDone() {
@@ -22,8 +24,8 @@ function TaskItem(props) {
       <tr className="Task">
         <td className="room">{props.task.room}</td>
         <td className="operation">{props.task.operation}</td>
-        <td className="start">{start.toString().substring(0,21)}</td>
-        <td className="end">{end.toString().substring(0,21)}</td>
+        <td className="beginning">{myBeginning.toString().substring(0,21)}</td>
+        <td className="end">{myEnd.toString().substring(0,21)}</td>
         {renderDone()}
       </tr>
     );

@@ -15,7 +15,6 @@ class Tasks extends Component {
     axios.get('/tasks')
     .then(res => {
       this.setState({tasks: res.data });
-      console.log(this.state.tasks);
     })
   }
 //*/
@@ -54,7 +53,7 @@ class Tasks extends Component {
     if(this.state.tasks){
       taskItems = this.state.tasks.map(task =>{
         return(
-          <tbody key={task.id}>
+          <tbody key={task._id}>
             <TaskItem task={task} />
           </tbody>
         )
@@ -62,7 +61,7 @@ class Tasks extends Component {
     }
     return (
       <div className="Tasks">
-          <h3>Tâches à réaliser</h3>
+          <h3 className="ml-2"> Tâches à réaliser</h3>
           <table className="table">
             {taskItems}
           </table>

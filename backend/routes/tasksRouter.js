@@ -10,6 +10,7 @@ const taskRouter = express.Router();
 taskRouter.use(bodyParser.json());
 
 taskRouter.route('/')
+//Get all tasks
 .get( (req,res,next) => {
     Tasks.find(req.query)
     .then((tasks) => {
@@ -19,6 +20,8 @@ taskRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
+
+//Post a task
 .post(authenticate.verifyUser, (req,res,next) => {
     Tasks.create(req.body)
     .then((task) => {
@@ -29,10 +32,14 @@ taskRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
+
+//not supported
 .put(authenticate.verifyUser, (req,res,next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /tasks');
 })
+
+//Delete all tasks
 .delete(authenticate.verifyUser, (req,res,next) => {
     Tasks.remove({})
     .then((resp) => {
@@ -43,6 +50,7 @@ taskRouter.route('/')
     .catch((err) => next(err));
 });
 
+//Get a specific task
 taskRouter.route('/:taskId')
 .get(authenticate.verifyUser, (req,res,next) => {
     Tasks.findById(req.params.taskId)
@@ -53,13 +61,17 @@ taskRouter.route('/:taskId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
+
+//not supported
 .post(authenticate.verifyUser, (req,res,next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /tasks/' + req.params.taskId);
 })
+
+//Modify a specific tasks
 .put(authenticate.verifyUser, (req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
-        $set: req.body
+        $set: {done:req.body.done}
     }, { new: true })
     .then((task) => {
         res.statusCode = 200;
@@ -69,6 +81,8 @@ taskRouter.route('/:taskId')
     .catch((err) => next(err));
 })
 //use Joi/Ajv (JSON validators)
+
+//delete a specific task
 .delete(authenticate.verifyUser, (req,res,next) => {
     Tasks.findByIdAndRemove(req.params.taskId)
     .then((resp) => {

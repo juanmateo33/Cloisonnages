@@ -1,27 +1,46 @@
 import React from 'react';
 
 
-function TaskItem(props) {
+function TaskItem(props) { //à travers props, TaskItem hérite de task et de handleclick
     const beginning = props.task.beginning;
-    var myBeginning = new Date(beginning);
+    const myBeginning = new Date(beginning);
     const end = props.task.end;
-    var myEnd = new Date(end);
+    const myEnd = new Date(end);
+
+    //function créant un boutton done 
+    function renderButton() {
+      const now= new Date();
+      const duration = myEnd-now;
+
+      if (props.task.done && duration>0){ //si c'est fait
+        return <td> <button type="button" className="btn btn-outline-dark btn-sm"  onClick={()=>props.handleClick(props.task,false)}> c'est à faire</button></td>
+      } else if (props.task.done && duration<=0) { // si c'est fait et c'est passé
+        return 
+      } else if (!props.task.done && duration<0) { // si c'est à faire et c'est passé
+        return 
+      } else if (!props.task.done && duration/60000>120 ) { // si c'est à faire mais il y a le temps
+        return <td> <button type="button" className="btn btn-outline-dark btn-sm"  onClick={()=>props.handleClick(props.task,true)}> c'est fait</button></td>
+      } else { // si c'est à faire urgemment
+        return <td> <button type="button" className="btn btn-outline-dark btn-sm"  onClick={()=>props.handleClick(props.task,true)}> c'est fait</button></td>
+      }
+      
+    }
     
     //function pour montrer l'état de la tâche avec des couleurs différentes selon l'urgence 
     function renderDone() {
       const now = new Date();
       const duration = myEnd-now;
-      console.log(duration/60000)
+
       if (props.task.done && duration>0){ //si c'est fait
-        return <td className="text-success">done</td>
+        return <td className="text-success">fait</td>
       } else if (props.task.done && duration<=0) { // si c'est fait et c'est passé
-        return <td className=".text-muted">done</td>
+        return <td className="text-muted">fait</td>
       } else if (!props.task.done && duration<0) { // si c'est à faire et c'est passé
-        return <td className=".text-muted">missed</td>
+        return <td className="text-muted">raté</td>
       } else if (!props.task.done && duration/60000>120 ) { // si c'est à faire mais il y a le temps
-        return <td className="text-warning">pending </td>
+        return <td className="text-warning">à faire </td>
       } else { // si c'est à faire urgemment
-        return <td className="text-danger">pending in {Math.trunc(duration/60000)} min</td>
+        return <td className="text-danger">à faire d'ici {Math.trunc(duration/60000)} min</td>
       }
     }
 
@@ -33,6 +52,7 @@ function TaskItem(props) {
         <td className="beginning">{myBeginning.toString().substring(0,21)}</td>
         <td className="end">{myEnd.toString().substring(0,21)}</td>
         {renderDone()}
+        {renderButton()}
       </tr>
     );
 }

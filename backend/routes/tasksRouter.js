@@ -69,7 +69,7 @@ taskRouter.route('/:taskId')
 })
 
 //Modify a specific tasks
-.put(authenticate.verifyUser, (req, res, next) => {
+.put((req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
         $set: {done:req.body.done}
     }, { new: true })

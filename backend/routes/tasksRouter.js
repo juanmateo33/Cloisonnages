@@ -59,7 +59,7 @@ taskRouter.route('/:taskId')
 })
 .put(authenticate.verifyUser, (req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
-        $set: req.body
+        $set: {done:req.body.done}
     }, { new: true })
     .then((task) => {
         res.statusCode = 200;

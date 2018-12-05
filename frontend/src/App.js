@@ -15,7 +15,6 @@ import NavBar from './components/NavBar/index';
 
 let userInfos = 
     { firstName: 'John-Evan', lastName: 'Karcenty' };
-    console.log(userInfos);
 
 const AppRoutes = () =>
     

@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "moment": "^2.22.2",
     "navigationbar-react-native": "0.0.5",
     "react": "^16.6.1",
+    "react-datetime": "^2.16.3",
     "react-dom": "^16.6.1",
+    "react-moment": "^0.8.4",
     "react-native-navigation-bar": "^0.2.1",
     "react-navigation": "^2.18.2",
     "react-router-dom": "^4.3.1",

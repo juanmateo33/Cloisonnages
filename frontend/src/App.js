@@ -7,7 +7,7 @@ import Logout from './components/Logout';
 
 import About from './components/About';
 import Contact from './components/Contact';
-import Help from './components/Help';
+import Help from './components/Help/index';
 
 import NavBar from './components/NavBar/index';
 

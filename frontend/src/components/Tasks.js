@@ -21,7 +21,8 @@ class Tasks extends Component {
         const B = new Date(b.end);
         return A - B;}));
       this.setState({tasks: list });
-    })
+    }).catch(err=> {console.log("impossible de récupérer les tâches");
+                    console.log(err)})
   }
   componentWillMount(){
     this.fetchTasks();
@@ -35,8 +36,9 @@ class Tasks extends Component {
     .then(//une fois la base de donnée modifiée, on peut la recharger.
       //pour l'instant je n'arrive pas à changer uniquement un élément de la liste de Tasks directement sur le front
       this.fetchTasks()
-    )
-  }
+    ).catch(err=> {console.log("impossible de modifier la tâche");
+    console.log(err)})
+}
 
 
   render() {

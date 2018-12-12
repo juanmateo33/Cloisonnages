@@ -29,13 +29,13 @@ class Tasks extends Component {
   }
 
   //function updatebutton
-   handleClick(task, hasBeenDone){
+  handleClick(task, hasBeenDone){
     const body = { done: hasBeenDone};
     const url = `/tasks/${task._id}`;
     axios.put(url, body)
     .then(//une fois la base de donnée modifiée, on peut la recharger.
       //pour l'instant je n'arrive pas à changer uniquement un élément de la liste de Tasks directement sur le front
-      this.fetchTasks()
+      () => this.fetchTasks()
     ).catch(err=> {console.log("impossible de modifier la tâche");
     console.log(err)})
 }

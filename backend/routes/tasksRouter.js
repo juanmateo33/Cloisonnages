@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 var authenticate = require('../authenticate');
 
 const Tasks = require('../models/tasks');
+const { validateBody, schema } = require('../models/JSONvalidators/taskvalidator');
 
 const taskRouter = express.Router();
 
@@ -22,7 +23,7 @@ taskRouter.route('/')
 })
 
 //Post a task
-.post(authenticate.verifyUser, (req,res,next) => {
+.post(authenticate.verifyUser, validateBody(schema),(req,res,next) => {
     Tasks.create(req.body)
     .then((task) => {
         console.log('Task Created',task);

@@ -19,7 +19,7 @@ class Tasks extends Component {
       const list= res.data.sort((function(a, b) {
         const A = new Date(a.end);
         const B = new Date(b.end);
-        return A - B;}));
+        return B-A;}));
       this.setState({tasks: list });
     }).catch(err=> {console.log("impossible de récupérer les tâches");
                     console.log(err)})
@@ -56,6 +56,16 @@ class Tasks extends Component {
       <div className="Tasks">
           <h3 className="ml-2"> Tâches à réaliser</h3>
           <table className="table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Salle</th>
+                <th scope="col">Opération</th>
+                <th scope="col">Du</th>
+                <th scope="col">Au</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Fait?</th>
+              </tr>
+            </thead>
             {taskItems}
           </table>
       </div>

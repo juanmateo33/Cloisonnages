@@ -69,12 +69,12 @@ taskRouter.route('/:taskId')
 })
 
 //Modify a specific tasks
-.put((req, res, next) => {
+.patch((req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
         $set: {done:req.body.done}
     }, { new: true })
     .then((task) => {
-        res.statusCode = 200;
+        res.statusCode = 204;
         res.setHeader('Content-Type', 'application/json');
         res.json(task);
     }, (err) => next(err))

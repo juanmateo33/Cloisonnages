@@ -20,4 +20,8 @@ const schema = Joi.object().keys({
     done: Joi.boolean()
 });
 
-module.exports = {validateBody, schema}
+const schema2 = Joi.object().keys({
+        done: Joi.boolean()
+});
+
+module.exports = {validateBody, schema, schema2}

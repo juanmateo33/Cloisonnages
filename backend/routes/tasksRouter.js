@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 var authenticate = require('../authenticate');
 
 const Tasks = require('../models/tasks');
-const { validateBody, schema } = require('../models/JSONvalidators/taskvalidator');
+const { validateBody, schema, schema2 } = require('../models/JSONvalidators/taskvalidator');
 
 const taskRouter = express.Router();
 
@@ -44,15 +44,14 @@ taskRouter.route('/:taskId')
 .get(authenticate.verifyUser, (req,res,next) => {
     Tasks.findById(req.params.taskId)
     .then((task) => {
-        res.statusCode = 200;
-        res.json(task);
-    }, (err) => next(err))
+        res.send(task);
+    })
     .catch((err) => next(err));
 })
 
 
 //Modify a specific tasks ( add JSON Validators)
-.patch((req, res, next) => {
+.patch(validateBody(schema2),(req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
         $set: {done:req.body.done}
     }, { new: true })

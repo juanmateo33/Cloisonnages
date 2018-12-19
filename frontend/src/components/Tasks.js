@@ -16,21 +16,19 @@ class Tasks extends Component {
     axios.get('/tasks')
     .then(res => {
 
-      const list= res.data.sort((function(a, b) {
-        const A = new Date(a.end);
-        const B = new Date(b.end);
-        return B-A;}));
-      this.setState({tasks: list });
+      const tasks= res.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
+      this.setState({tasks});
     }).catch(err=> {console.log("impossible de récupérer les tâches");
                     console.log(err)})
   }
+
   componentWillMount(){
     this.fetchTasks();
   }
 
   //function updatebutton
-  handleClick(task, hasBeenDone){
-    const body = { done: hasBeenDone};
+  handleClick(task, done){
+    const body = {done};
     const url = `/tasks/${task._id}`;
     axios.patch(url, body)
     .then(//une fois la base de donnée modifiée, on peut la recharger.
@@ -45,9 +43,10 @@ class Tasks extends Component {
     let taskItems;
     if(this.state.tasks){
       taskItems = this.state.tasks.map(task =>{
+        // changer tbody
         return(
           <tbody key={task._id}>
-            <TaskItem task={task} handleClick={(task,hasBeenDone)=>this.handleClick(task,hasBeenDone)} />
+            <TaskItem task={task} handleClick={(task,done)=>this.handleClick(task,done)} />
           </tbody>
         )
       })

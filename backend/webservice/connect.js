@@ -1,16 +1,15 @@
-const { promisify } = require("util");
-const config = require("../config");
+const config = require("./config");
 const soap = require("soap");
 
 async function getClient(url) {
-    return promisify(soap.createClient)(url);
+    return soap.createClient(url);
 }
 
 async function getGUID(sessionClient) {
-    const guid = (await promisify(sessionClient.InitSession)({
+    const guid = (sessionClient.InitSession)({
       login: config.webservice.user,
       password: config.webservice.password
-    })).InitSessionResult;
+    }).InitSessionResult;
 
     // Error handling
     switch (guid) {

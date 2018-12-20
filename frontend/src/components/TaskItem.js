@@ -6,11 +6,11 @@ function TaskItem(props) { //à travers props, TaskItem hérite de task et de ha
     const myBeginning = new Date(beginning);
     const end = props.task.end;
     const myEnd = new Date(end);
+    const now= new Date();
+    const duration = myEnd-now;
 
     //function créant un boutton done 
     function renderButton() {
-      const now= new Date();
-      const duration = myEnd-now;
 
       if (props.task.done && duration>0){ //si c'est fait
         return <td> <button type="button" className="btn btn-outline-dark btn-sm"  onClick={()=>props.handleClick(props.task,false)}> c'est à faire</button></td>
@@ -28,8 +28,6 @@ function TaskItem(props) { //à travers props, TaskItem hérite de task et de ha
     
     //function pour montrer l'état de la tâche avec des couleurs différentes selon l'urgence 
     function renderDone() {
-      const now = new Date();
-      const duration = myEnd-now;
 
       if (props.task.done && duration>0){ //si c'est fait
         return <td className="text-success">fait</td>

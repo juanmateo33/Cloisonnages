@@ -5,7 +5,7 @@ import Tasks from './components/Tasks';
 import Login from './components/Login';
 import Logout from './components/Logout';
 
-import About from './components/About';
+import Events from './components/Events';
 import Contact from './components/Contact';
 import Help from './components/Help/index';
 
@@ -25,7 +25,7 @@ const AppRoutes = () =>
         <section>
         <Switch>
             <Route path="/tasks" component={Tasks} />   
-            <Route path="/about" component={About} />
+            <Route path="/events" component={Events} />
             <Route path="/contact" component={Contact} />
             <Route path="/help" component={Help} />
             <Route path="/login" component={Login} />

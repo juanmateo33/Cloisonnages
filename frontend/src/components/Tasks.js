@@ -30,14 +30,14 @@ class Tasks extends Component {
   async handleClick(task, done){
     const body = {done};
     const url = `/tasks/${task._id}`;
-    try{
-    await axios.patch(url, body);
+    axios.patch(url, body)
+    .then( () => {
       let tasks = this.state.tasks;
       const i = tasks.indexOf(task);
       tasks[i].done = tasks[i].done ? false : true;
       this.setState(tasks)
-    }catch(err){console.log("impossible de modifier la tâche");
-    console.log(err)}
+    }).catch(err=>{console.log("impossible de modifier la tâche");
+                  console.log(err)})
 }
 
 

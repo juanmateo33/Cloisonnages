@@ -12,12 +12,13 @@ taskRouter.use(bodyParser.json());
 taskRouter.route('/')
 //Get all tasks
 .get( (req,res,next) => {
-    Tasks.find(req.query)
+    Tasks.find()
     .then((tasks) => {
         res.send(tasks);
     })
     .catch((err) => next(err));
 })
+
 
 //Post a task (validatebody)
 .post(authenticate.verifyUser, validateBody(schema),(req,res,next) => {
@@ -38,6 +39,8 @@ taskRouter.route('/')
     })
     .catch((err) => next(err));
 });
+
+
 
 //Get a specific task
 taskRouter.route('/:taskId')

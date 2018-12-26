@@ -13,6 +13,7 @@
     "joi": "^14.3.0",
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.11",
+    "moment": "^2.23.0",
     "mongoose": "^5.3.13",
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
@@ -20,6 +21,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
     "pug": "2.0.0-beta11",
-    "soap": "^0.25.0"
+    "soap": "^0.25.0",
+    "xml2json": "^0.11.2"
   }
 }

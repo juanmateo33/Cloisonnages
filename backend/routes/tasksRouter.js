@@ -3,39 +3,58 @@ const bodyParser = require('body-parser');
 var authenticate = require('../authenticate');
 
 const Tasks = require('../models/tasks');
-const { validateBody, schema, schema2 } = require('../models/JSONvalidators/taskvalidator');
+const { validateBody, validateQuery, schemaAll, schemaDone, schemaDate } = require('../models/JSONvalidators/taskvalidator');
 
 const taskRouter = express.Router();
 
 taskRouter.use(bodyParser.json());
 
 taskRouter.route('/')
-//Get all tasks
-.get( (req,res,next) => {
-    Tasks.find()
+//Get all tasks to complete between two Dates
+.get(validateQuery(schemaDate), (req,res,next) => {
+    //create the query according to req.query
+    if (!req.query.since && !req.query.until) {query={};} 
+    else {
+        query = {end:{}};
+        if (req.query.since){
+            since = new Date(req.query.since);
+            query.end['$gte'] = since;
+      } if (req.query.until){
+            until = new Date(req.query.until);
+            query.end['$lte'] = until;
+      }
+    }
+    
+    Tasks.find(query)
     .then((tasks) => {
-        res.send(tasks);
+        res.status(200).send(tasks); //operation successful
     })
     .catch((err) => next(err));
 })
 
 
-//Post a task (validatebody)
-.post(authenticate.verifyUser, validateBody(schema),(req,res,next) => {
+//Post a task 
+.post(authenticate.verifyUser, validateBody(schemaAll), (req,res,next) => {
     Tasks.create(req.body)
     .then((task) => {
         console.log('Task Created',task);
-        res.send(task);
+        res.status(201).send(task); // created
     })
     .catch((err) => next(err));
 })
 
 
-//Delete all tasks
-.delete(authenticate.verifyUser, (req,res,next) => {
-    Tasks.remove({})
+//Delete all tasks before a date
+.delete(authenticate.verifyUser, validateQuery(schemaDate), (req,res,next) => {
+    query={};
+    if (req.query.until){
+        query.end={};
+        until = new Date(req.query.until);
+        query.end['$lte'] = until;
+    }
+    Tasks.deleteMany(query)
     .then((resp) => {
-        res.send(resp);
+        res.status(204).send(); // no return
     })
     .catch((err) => next(err));
 });
@@ -47,29 +66,39 @@ taskRouter.route('/:taskId')
 .get(authenticate.verifyUser, (req,res,next) => {
     Tasks.findById(req.params.taskId)
     .then((task) => {
-        res.send(task);
+        if(!task){
+            res.status(404).send('TaskID Not Found') // Not Found
+        } else {res.status(200).send(task);} //Success
     })
     .catch((err) => next(err));
 })
 
 
-//Modify a specific tasks ( add JSON Validators)
-.patch(validateBody(schema2),(req, res, next) => {
+//Modify a specific task
+.patch(validateBody(schemaDone),(req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
         $set: {done:req.body.done}
     }, { new: true })
     .then((task) => {
-        res.send(task);
+        if (!task){
+            res.status(404).send('TaskID Not Found');
+        }
+        else{
+            res.status(200).send(task);}
     })
     .catch((err) => next(err));
 })
 
 
-//delete a specific task ( voir si not found erreur)
+//delete a specific task
 .delete(authenticate.verifyUser, (req,res,next) => {
     Tasks.findByIdAndRemove(req.params.taskId)
-    .then((resp) => {
-        res.send(resp);
+    .then(() => {
+        if (!task){
+            res.status(404).send('TaskID Not Found');
+        }
+        else{
+            res.status(204)}
     })
     .catch((err) => next(err));
 });

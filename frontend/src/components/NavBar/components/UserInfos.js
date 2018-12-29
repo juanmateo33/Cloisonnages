@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default ({ userInfos }) => {
   let username;
   if (userInfos) {
-    username = `${userInfos.firstName} ${userInfos.lastName}`;
+    username = `${userInfos.firstname} ${userInfos.lastname}`;
   } else {
     username = "Chargement...";
   }

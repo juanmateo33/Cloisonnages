@@ -13,8 +13,8 @@ import NavBar from './components/NavBar/index';
 
 
 
-let userInfos = 
-    { firstName: 'John-Evan', lastName: 'Karcenty' };
+const localInfos = localStorage.getItem('userInfos');
+const userInfos = JSON.parse(localInfos);
 
 const AppRoutes = () =>
     

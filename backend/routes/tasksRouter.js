@@ -11,7 +11,7 @@ taskRouter.use(bodyParser.json());
 
 taskRouter.route('/')
 //Get all tasks to complete between two Dates
-.get(validateQuery(schemaDate), (req,res,next) => {
+.get(authenticate.verifyUser, validateQuery(schemaDate), (req,res,next) => {
     //create the query according to req.query
     if (!req.query.since && !req.query.until) {query={};} 
     else {
@@ -44,13 +44,18 @@ taskRouter.route('/')
 })
 
 
-//Delete all tasks before a date
+//Delete all tasks between two Dates (not used right now)
 .delete(authenticate.verifyUser, validateQuery(schemaDate), (req,res,next) => {
-    query={};
-    if (req.query.until){
-        query.end={};
-        until = new Date(req.query.until);
-        query.end['$lte'] = until;
+    if (!req.query.since && !req.query.until) {query={};} 
+    else {
+        query = {end:{}};
+        if (req.query.since){
+            since = new Date(req.query.since);
+            query.end['$gte'] = since;
+      } if (req.query.until){
+            until = new Date(req.query.until);
+            query.end['$lte'] = until;
+      }
     }
     Tasks.deleteMany(query)
     .then((resp) => {
@@ -75,7 +80,7 @@ taskRouter.route('/:taskId')
 
 
 //Modify a specific task
-.patch(validateBody(schemaDone),(req, res, next) => {
+.patch(authenticate.verifyUser, validateBody(schemaDone),(req, res, next) => {
     Tasks.findByIdAndUpdate(req.params.taskId, {
         $set: {done:req.body.done}
     }, { new: true })

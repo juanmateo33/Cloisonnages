@@ -77,6 +77,22 @@ function parseRoom(room) {
   };
 }
 
+//Function that parse only the modulables rooms
+function parseRoomFilter(room){
+  if(misc.getPropertyRawValue(room,124)===153){
+    return {
+      id: room.NumRes,
+      name: room.NomRes,
+      campus: getPropertyValue(room, "campus"),
+      building: getPropertyValue(room, "building"),
+      wing: getPropertyValue(room, "wing"),
+      floor: getPropertyValue(room, "floor"),
+      type: getPropertyValue(room, "type"),
+    }
+  }
+}
+
+//Parse a List of rooms filtered, only those which are modulables
 function parseRoomList(roomList) {
   // Check if there are rooms at all
   if (!roomList) return [];
@@ -85,7 +101,7 @@ function parseRoomList(roomList) {
   // to be transformed into an array
   const arrayContent = Array.isArray(roomList) ? roomList : [roomList];
 
-  return arrayContent.map(parseRoom);
+  return arrayContent.map(parseRoomFilter);
 }
 
 module.exports = {

@@ -24,7 +24,7 @@ taskRouter.route('/')
     Tasks.create(req.body)
     .then((task) => {
         console.log('Task Created',task);
-        res.send(task);
+        res.status(201).send(task);
     })
     .catch((err) => next(err));
 })

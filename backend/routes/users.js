@@ -63,12 +63,12 @@ router.post('/login', (req, res, next) => {
 
       var token = authenticate.getToken({_id: req.user._id});
       res.statusCode = 200;
-      res.json({success: true, status: 'Login Successful!', token: token});
+      res.json({success: true, user: user, status: 'Login Successful!', token: token});
     }); 
   }) (req, res, next);
 });
 
-router.get('/checkjwttoken', (req, res) => {
+/*router.get('/checkjwttoken', (req, res) => {
   passport.authenticate('jwt', {session: false}, (err, user, info) => {
     if (err)
       return next(err);
@@ -82,6 +82,8 @@ router.get('/checkjwttoken', (req, res) => {
       return res.json({status: 'JWT valid!', success: true, user: user});
     }
   }) (req, res);
-});
+}); */
+
+//sert uniquement en cas de stockage dans un cookie ?
 
 module.exports = router;

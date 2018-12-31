@@ -11,6 +11,7 @@ var config = require('./config');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var taskRouter = require('./routes/tasksRouter');
+var eventRouter = require('./routes/eventsRouter');
 
 const mongoose = require('mongoose');
 
@@ -43,6 +44,7 @@ app.use('/users', usersRouter);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/tasks',taskRouter);
+app.use('/events',eventRouter);
 
 // if the url doesnt match with any of the created routes
 // catch 404 and forward to error handler

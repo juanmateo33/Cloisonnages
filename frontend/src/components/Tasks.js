@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
-import axios from 'axios';
-// import fetchTasks from '../services/fetchTasks';
+import fetchTasks from '../services/fetchTasks';
+import updateTask from '../services/updateTask';
+
 
 require('react-datetime');
 
@@ -13,14 +14,12 @@ class Tasks extends Component {
   }
   
   fetchTasks(){
-    axios.get('/tasks')
-    .then(res => {
-      const tasks= res.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
+    fetchTasks()
+    .then(tasks => {
       this.setState({tasks});
-    }).catch(err=> {console.log("impossible de récupérer les tâches");
+    }).catch(err=> {console.log("impossible d'afficher les tâches");
                     console.log(err)})
   }
-    
 
   componentWillMount(){
     this.fetchTasks();
@@ -30,14 +29,14 @@ class Tasks extends Component {
   async handleClick(task, done){
     const body = {done};
     const url = `/tasks/${task._id}`;
-    try{
-    await axios.patch(url, body);
+    updateTask(url,body)
+    .then( () => {
       let tasks = this.state.tasks;
       const i = tasks.indexOf(task);
       tasks[i].done = tasks[i].done ? false : true;
       this.setState(tasks)
-    }catch(err){console.log("impossible de modifier la tâche");
-    console.log(err)}
+    }).catch(err=>{console.log("impossible de modifier la tâche");
+                  console.log(err)})
 }
 
 

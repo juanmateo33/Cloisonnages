@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+
 
 class Logout extends Component {
+
+  componentWillMount(){
+    localStorage.clear();
+    this.props.history.push('./login')
+  }
   render() {
-    return (
-      <div className="Logout">
-          Logout
-      </div>
-    );
+    return null
   }
 }
 

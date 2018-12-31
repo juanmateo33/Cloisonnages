@@ -1,6 +1,7 @@
 const config = require("./config");
 const soap = require("soap");
 
+
 async function getClient(url) {
     return soap.createClient(url);
 }
@@ -44,7 +45,7 @@ async function newSession() {
 }
   
 async function endSession(session) {
-    const response = (await promisify(session.client.EndSession)({
+    const response = (await (session.client.EndSession)({
       guid: session.guid
     })).EndSessionResult;
   

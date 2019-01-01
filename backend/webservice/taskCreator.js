@@ -1,3 +1,8 @@
+const moment = require("moment");
+
+const config = require("./translatorConfig").event;
+const misc = require("./misc");
+
 function createTask(event1, event2){
     const startTime1 = misc.getPropertyRawValue(event1, config.startTime.CodPro);
     const endTime1 = misc.getPropertyRawValue(event1, config.endTime.CodPro);
@@ -6,8 +11,8 @@ function createTask(event1, event2){
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
     const state1 = misc.getPropertyRawValue(event1, config.room.CodPro);
 
-    const startDate1 = moment.utc(`${date}T${startTime}`);
-    const endDate1 = moment.utc(`${date}T${endTime}`);
+    const startDate1 = moment.utc(`${date1}T${startTime1}`);
+    const endDate1 = moment.utc(`${date1}T${endTime1}`);
 
     const startTime2 = misc.getPropertyRawValue(event2, config.startTime.CodPro);
     const endTime2 = misc.getPropertyRawValue(event2, config.endTime.CodPro);
@@ -16,8 +21,8 @@ function createTask(event1, event2){
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
     const state2 = misc.getPropertyRawValue(event2, config.room.CodPro);
   
-    const startDate2 = moment.utc(`${date}T${startTime}`);
-    const endDate2 = moment.utc(`${date}T${endTime}`);
+    const startDate2 = moment.utc(`${date2}T${startTime2}`);
+    const endDate2 = moment.utc(`${date2}T${endTime2}`);
 
     if(state1===state2){
         return;
@@ -53,8 +58,10 @@ function createTasks(eventArray) {
     var arrayContent = [];
 
     for (var i = 1; i < eventArray.length-1; i++) {
-        newEvent = createTask(eventArray[i],eventArray[i+1]);
-        arrayContent.push(newEvent);
+        createTask(eventArray[i],eventArray[i+1])
+        .then((newEvent) => {
+            arrayContent.push(newEvent);
+        });
     }
 
     return arrayContent;
@@ -65,7 +72,7 @@ function createTasks(eventArray) {
         return;
     }
     for (var i = 0; i< tasksArray.length; i++) {
-        //Post tasks into the database
+        //Post task into the database
     }
   }
 

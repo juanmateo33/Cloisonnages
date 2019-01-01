@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import Tasks from './components/Tasks';
+import Tasks from './components/Tasks/index';
 import Login from './components/Login/index';
 import Logout from './components/Logout';
 

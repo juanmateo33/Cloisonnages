@@ -98,13 +98,13 @@ taskRouter.route('/:taskId')
 //delete a specific task
 .delete(authenticate.verifyUser, (req,res,next) => {
     Tasks.findByIdAndRemove(req.params.taskId)
-    .then(() => {
+    .then((task) => {
         if (!task){
             res.status(404).send('TaskID Not Found');
         }
         else{
-            res.status(204)}
-    })
+            res.status(204).send();
+    }})
     .catch((err) => next(err));
 });
 

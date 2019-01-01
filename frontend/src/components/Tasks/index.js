@@ -24,18 +24,28 @@ class Tasks extends Component {
   
   fetchTasks(){
     fetchNextTasks()
-    .then(tasks => {
+    .then(tasksfetched => {
+      const tasks = tasksfetched.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
       this.setState({tasks_shown: tasks, tasks});
-    }).catch(err=> {console.log("impossible d'afficher les tâches");
-                    console.log(err)})
+    }).catch(err=> {console.log("impossible de récupérer les tâches");
+                    console.log(err);
+                    console.log(err.statusCode);
+                    if(err.statusCode===401) {
+                      this.props.history.push('./logout');
+                    }})
   }
 
   fetchAllTasks(){
     fetchAllTasks()
-    .then(tasks => {
+    .then(tasksfetched => {
+      const tasks= tasksfetched.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
       this.setState({tasks_shown: tasks, tasks});
-    }).catch(err=> {console.log("impossible d'afficher les tâches");
-                    console.log(err)})
+    }).catch(err=> {console.log("impossible de récupérer les tâches");
+                    console.log(err);
+                    console.log(err.statusCode);
+                    if(err.statusCode===401) {
+                      this.props.history.push('./logout');
+                    }})
   }
 
 
@@ -45,15 +55,14 @@ class Tasks extends Component {
   }
 
   onClickShowPeriod(date){
-    const tasks = this.state.tasks;
-    let tasks_shown = tasks.slice(); // to create a new Object
+    let tasks_shown = this.state.tasks.slice(); // so that we don't change tasks
     const len = tasks_shown.length;
     let i=0;
     while((i<len)&&((new Date(tasks_shown[i].end))<date)){
       i++;
     }
     tasks_shown.splice(i,tasks_shown.splice(i,tasks_shown.length-i));
-    this.setState({tasks_shown, tasks});
+    this.setState({tasks_shown});
   }
 
   onClickShowMonth(){

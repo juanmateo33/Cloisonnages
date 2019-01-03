@@ -1,16 +1,17 @@
 const config = require("./config");
 const soap = require("soap");
+const { promisify } = require("util");
 
 
 async function getClient(url) {
-    return soap.createClient(url);
+    return promisify(soap.createClient)(url);
 }
 
 async function getGUID(sessionClient) {
-    const guid = (sessionClient.InitSession)({
+    const guid = await promisify(sessionClient.InitSession)({
       login: config.webservice.user,
       password: config.webservice.password
-    }).InitSessionResult;
+    });
 
     // Error handling
     switch (guid) {
@@ -37,15 +38,21 @@ async function getGUID(sessionClient) {
 
 async function newSession() {
     const sessionClient = await getClient(config.webservice.sessionurl);
-    const guid = await getGUID(sessionClient);
+    const guidObject = await getGUID(sessionClient);
+    const guid = guidObject.InitSessionResult;
     return {
       client: sessionClient,
       guid
     };
 }
+
+async function getClientAgenda(){
+  const sessionClient = await getClient(config.webservice.sessionurl_agenda);
+  return sessionClient
+}
   
 async function endSession(session) {
-    const response = (await (session.client.EndSession)({
+    const response = (await promisify(session.client.EndSession)({
       guid: session.guid
     })).EndSessionResult;
   
@@ -54,13 +61,17 @@ async function endSession(session) {
       case -1:
         throw new Error("could not disconnect gracefully from GEODE");
       case 0:
+        console.log('successfully disconnected')
         break;
       default:
-        throw new Error("unknown error when disconnecting from GEODE");
+      throw new Error("unknown error when disconnecting from GEODE");
+        
+        
     }
 }
   
 module.exports = {
     newSession,
-    endSession
+    endSession,
+    getClientAgenda
 };

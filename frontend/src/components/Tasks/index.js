@@ -29,10 +29,11 @@ class Tasks extends Component {
       this.setState({tasks_shown: tasks, tasks});
     }).catch(err=> {console.log("impossible de récupérer les tâches");
                     console.log(err);
-                    console.log(err.statusCode);
-                    if(err.statusCode===401) {
-                      this.props.history.push('./logout');
-                    }})
+                    //console.log(err.statusCode);
+                    //if(err.statusCode===401) {
+                    //  this.props.history.push('./logout');
+                    // }
+                  })
   }
 
   fetchAllTasks(){
@@ -42,10 +43,11 @@ class Tasks extends Component {
       this.setState({tasks_shown: tasks, tasks});
     }).catch(err=> {console.log("impossible de récupérer les tâches");
                     console.log(err);
-                    console.log(err.statusCode);
-                    if(err.statusCode===401) {
-                      this.props.history.push('./logout');
-                    }})
+                    // console.log(err.statusCode);
+                    //if(err.statusCode===401) {
+                    //  this.props.history.push('./logout');
+                    //}
+                  })
   }
 
 

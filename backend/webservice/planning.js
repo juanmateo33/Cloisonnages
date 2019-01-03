@@ -1,8 +1,14 @@
+const {promisify} = require("util");
+const misc = require("./misc");
+const roomParser = require("./roomParser");
+
 async function getRooms(client, guid) {
-    const response = await (client.ListerRessources)({ guid });
+    const response = await promisify(client.ListerRessources)({ guid });
     // il faudra ne garder que les salles modulables avec detail Ressource
-    const resourceList = misc.readXML(response.ListerRessourcesResult);
-    return roomParser.parseRoomList(resourceList.ROOT.RES);
+    // const resourceList = misc.readXML(response.ListerRessourcesResult);
+    const resourceList = response.ListerRessourcesResult;
+    // return roomParser.parseRoomList(resourceList.ROOT.RES);
+    return (resourceList);
   }
 
 async function getRoomPlanning(
@@ -16,7 +22,7 @@ async function getRoomPlanning(
   // startDate and endDate must be in ISO 8601 string format.
   // To convert a date object to an ISO 8601 string, use : date.toISOString()
   
-    const response = await (client.ListerEvenements)({
+    const response = await promisify(client.ListerEvenements)({
         guid,
         dateDebut: startDate,
         dateFin: endDate,

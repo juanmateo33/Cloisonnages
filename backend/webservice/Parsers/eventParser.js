@@ -17,9 +17,9 @@ function getEventType(event) {
 
 function parseEvent(event) {
   // Build Date objects startDate and endDate
-  const startTime = misc.getPropertyRawValue(event, config.startTime.CodPro);
-  const endTime = misc.getPropertyRawValue(event, config.endTime.CodPro);
-  const date = misc.getPropertyRawValue(event, config.date.CodPro);
+  const startTime = misc.getPropertyRawValue(event, "DEB");
+  const endTime = misc.getPropertyRawValue(event, "FIN");
+  const date = misc.getPropertyRawValue(event, "DAT");
 
   const startDate = moment.utc(`${date}T${startTime}`);
   const endDate = moment.utc(`${date}T${endTime}`);
@@ -27,10 +27,7 @@ function parseEvent(event) {
   return {
     id: event.NumEve,
     name: event.NomEve,
-    type: getEventType(event),
-    // ComEve: never figured out the meaning of this GEODE field
-    roomId: misc.getPropertyRawValue(event, config.resource.CodPro),
-    authorId: misc.getPropertyRawValue(event, config.author.CodPro),
+    roomId: misc.getPropertyRawValue(event, "RES"),
     startDate,
     endDate,
   };
@@ -45,7 +42,7 @@ function parseEventList(eventList) {
   const arrayContent = Array.isArray(eventList) ? eventList : [eventList];
 
   return arrayContent
-    .filter(event => event.EtaEve === config.active) // Only keep active events
+    // .filter(event => event.EtaEve === config.active) // Only keep active events
     .map(parseEvent)
     .sort(compareStartDate); // Sort events by chronological order
 }

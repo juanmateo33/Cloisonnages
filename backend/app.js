@@ -12,6 +12,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var taskRouter = require('./routes/tasksRouter');
 var roomRouter = require('./routes/roomsRouter');
+var eventRouter = require('./routes/eventsRouter');
 
 const mongoose = require('mongoose');
 
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/tasks',taskRouter);
 app.use('/rooms',roomRouter);
+app.use('/events',eventRouter);
 
 // if the url doesn't match with any of the created routes
 // catch 404 and forward to error handler

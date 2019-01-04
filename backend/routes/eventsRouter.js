@@ -2,9 +2,9 @@ var express = require('express');
 const connect = require("../webservice/connect");
 const planning = require("../webservice/planning");
 
-var roomRouter = express.Router();
+var eventRouter = express.Router();
 
-roomRouter.route('/')
+eventRouter.route('/')
 .get( async (req,res,next) => {
     try {
      // Connect to GEODE
@@ -12,7 +12,15 @@ roomRouter.route('/')
      
      // get Rooms
      const ListeRessources = await planning.getRooms(agendaClient, session.guid);
-     res.send(ListeRessources);
+
+     // Get events
+    const ListeEvents = await planning.getRoomEvents(
+         agendaClient,
+         session.guid,
+         ListeRessources
+     )
+     res.send(ListeEvents);
+
      if(session){
         connect.endSession(session);
       }
@@ -25,4 +33,4 @@ roomRouter.route('/')
     
 })
 
-module.exports = roomRouter;
+module.exports = eventRouter;

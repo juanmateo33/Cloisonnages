@@ -2,7 +2,7 @@ var express = require('express');
 const connect = require("../webservice/connect");
 const planning = require("../webservice/planning");
 const search = require("../webservice/search");
-const {readXML} = require("../webservice/misc");
+const misc = require("../webservice/misc");
 
 var eventRouter = express.Router();
 
@@ -14,13 +14,13 @@ eventRouter.route('/')
      
      // get Rooms
      const ListeRessources = await planning.getRooms(agendaClient, session.guid);
-     res.send (ListeRessources);
+     res.send(ListeRessources);
      if(session){
         connect.endSession(session);
       }
      // Get events
     /* const ListeEvents = await planning.getRoomPlanning(
-         session.client,
+         agendaClient,
          session.guid,
          startDate,
          endDate,

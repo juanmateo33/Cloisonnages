@@ -33,11 +33,11 @@ class Login extends Component {
     if(this.state.username && this.state.password){
      authenticateUser(this.state.username, this.state.password)
      .then((resp)=>{ 
-       console.log(resp)
       if(resp.data.success){
         this.fillLocalStorage(resp.data);
-        this.props.history.push('./tasks')
       }
+
+    }).then(()=>{this.props.history.push('./tasks');
       
   }).catch((err)=>
   {console.log(err, 'Wrong username or password');

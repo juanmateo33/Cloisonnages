@@ -1,14 +1,12 @@
 const {promisify} = require("util");
-const misc = require("./misc");
-const roomParser = require("./roomParser");
+const misc = require("./parsers/misc");
 
 async function getRooms(client, guid) {
     const response = await promisify(client.ListerRessources)({ guid });
-    // il faudra ne garder que les salles modulables avec detail Ressource
     const resourceList = misc.readXML(response.ListerRessourcesResult).ROOT.RES;
+    // il faut ne garder que les salles modulables avec Pro: "124:153"
     const newList = [];
-    for (let i=0; i<420; i++){
-      // il faudra réussir à accéder à ressourceList.lenght();
+    for (i in resourceList){
       const room=resourceList[i];
       propertyvalue = misc.getPropertyRawValue(room, "124");
       if (propertyvalue=="153"){

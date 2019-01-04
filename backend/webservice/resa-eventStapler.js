@@ -2,8 +2,8 @@ const { promisify } = require("util");
 const _ = require("lodash");
 const moment = require("moment");
 
-const misc = require("./misc");
-const eventParser = require("./eventParser");
+const misc = require("./parsers/misc");
+const eventParser = require("./parsers/eventParser");
 
 async function getRoomEventList(client, guid, roomList, selectedDate) {
   // roomList must be an array of integers: [roomId1, roomId2, roomId3, ...]

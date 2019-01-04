@@ -1,7 +1,7 @@
 const moment = require("moment");
 
-const config = require("./translatorConfig").event;
-const misc = require("./misc");
+const config = require("./parsers/translatorConfig").event;
+const misc = require("./parsers/misc");
 
 function createTask(event1, event2){
     const startTime1 = misc.getPropertyRawValue(event1, config.startTime.CodPro);

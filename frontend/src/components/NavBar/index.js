@@ -29,7 +29,7 @@ export default ({ userInfos }) => (
     >
       <ul className="navbar-nav ml-auto">
         <NavBarItem text="Tâches" link="/tasks" />
-        <NavBarItem text="Evenements" link="/events" />
+        <NavBarItem text="Salles" link="/rooms" />
         <NavBarItem text="Contact" link="/contact" />
         <NavBarItem text="Aide" link="/help" />
         <UserInfos userInfos={userInfos} link="#" />

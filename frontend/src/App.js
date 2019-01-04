@@ -5,7 +5,7 @@ import Tasks from './components/Tasks/index';
 import Login from './components/Login/index';
 import Logout from './components/Logout';
 
-import Events from './components/Events';
+import Rooms from './components/Rooms/index';
 import Contact from './components/Contact';
 import Help from './components/Help/index';
 
@@ -54,7 +54,7 @@ export default class App extends React.Component {
                                             <Switch>
                                                 <Route path="/tasks" component={Tasks} /> 
                                                 <Route path="/contact" component={Contact} /> 
-                                                <Route path="/events" component={Events} />
+                                                <Route path="/rooms" component={Rooms} />
                                                 <Route path="/help" component={Help} />
                                                 <Redirect from="/" to="/tasks" />
                                             </Switch>

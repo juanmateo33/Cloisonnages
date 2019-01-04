@@ -1,11 +1,11 @@
 const { promisify } = require("util");
 const _ = require("lodash");
 
-const roomParser = require("./roomParser");
+const roomParser = require("./parsers/roomParser");
+const misc = require("./parsers/misc");
+const config = require("./parsers/translatorConfig").room;
 
-const misc = require("./misc");
-const eventStapler = require("./eventStapler");
-const config = require("./translatorConfig").room;
+const eventStapler = require("./resa-eventStapler");
 
 async function getAllRooms(client, guid) {
   const response = await promisify(client.ListerRessources)({ guid });

@@ -1,12 +1,10 @@
 var express = require('express');
 const connect = require("../webservice/connect");
 const planning = require("../webservice/planning");
-const search = require("../webservice/search");
-const misc = require("../webservice/misc");
 
-var eventRouter = express.Router();
+var roomRouter = express.Router();
 
-eventRouter.route('/')
+roomRouter.route('/')
 .get( async (req,res,next) => {
     try {
      // Connect to GEODE
@@ -38,4 +36,4 @@ eventRouter.route('/')
     
 })
 
-module.exports = eventRouter;
+module.exports = roomRouter;

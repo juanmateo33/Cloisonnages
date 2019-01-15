@@ -1,3 +1,5 @@
+//NOT USED, JUST A MODEL
+
 const { promisify } = require("util");
 const _ = require("lodash");
 const moment = require("moment");

@@ -4,25 +4,12 @@ const config = require("./parsers/translatorConfig").event;
 const misc = require("./parsers/misc");
 
 function createTask(event1, event2){
-    const startTime1 = misc.getPropertyRawValue(event1, config.startTime.CodPro);
-    const endTime1 = misc.getPropertyRawValue(event1, config.endTime.CodPro);
-    const date1 = misc.getPropertyRawValue(event1, config.date.CodPro);
 
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
     const state1 = misc.getPropertyRawValue(event1, config.room.CodPro);
 
-    const startDate1 = moment.utc(`${date1}T${startTime1}`);
-    const endDate1 = moment.utc(`${date1}T${endTime1}`);
-
-    const startTime2 = misc.getPropertyRawValue(event2, config.startTime.CodPro);
-    const endTime2 = misc.getPropertyRawValue(event2, config.endTime.CodPro);
-    const date2 = misc.getPropertyRawValue(event2, config.date.CodPro);
-
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
     const state2 = misc.getPropertyRawValue(event2, config.room.CodPro);
-  
-    const startDate2 = moment.utc(`${date2}T${startTime2}`);
-    const endDate2 = moment.utc(`${date2}T${endTime2}`);
 
     if(state1===state2){
         return;
@@ -32,16 +19,16 @@ function createTask(event1, event2){
         return {
             operation: "Decloisonner",
             room: event1.roomId,
-            beginning: endDate1,
-            end: startDate2,
+            beginning: event1.endDate,
+            end: event2.startDate,
         }
     }
 
     return{
         operation: "Cloisonner",
         room: event1.roomId,
-        beginning: endDate1,
-        end: startDate2,
+        beginning: event1.endDate,
+        end: event2.startDate,
     }
 }
 

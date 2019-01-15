@@ -65,8 +65,6 @@ async function endSession(session) {
         break;
       default:
       throw new Error("unknown error when disconnecting from GEODE");
-        
-        
     }
 }
   

@@ -1,18 +1,10 @@
 const moment = require("moment");
 
-const config = require("./translatorConfig").event;
 const misc = require("./misc");
 
 function compareStartDate(event1, event2) {
   if (event1.startDate.isSameOrAfter(event2.startDate)) return 1;
   return -1;
-}
-
-function getEventType(event) {
-  // Translates event type to human-readable value using translatorConfig.json
-  return config.type[event.TypEve] === undefined
-    ? null
-    : config.type[event.TypEve];
 }
 
 function parseEvent(event) {
@@ -27,7 +19,7 @@ function parseEvent(event) {
   return {
     id: event.NumEve,
     name: event.NomEve,
-    roomId: misc.getPropertyRawValue(event, "RES"),
+    //roomId: misc.getPropertyRawValue(event, "RES"),
     startDate,
     endDate,
   };

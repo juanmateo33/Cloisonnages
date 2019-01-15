@@ -51,8 +51,38 @@ function getPropertyRawValue(object, CodPro) {
   return attributeObject.ValPro;
 }
 
+function getPropertyRawValueMultiple(object, CodPro) {
+  /*
+  same as previous function but for multiple attributes. Ex:
+  Events that as a resource RES have several rooms:
+  Pro: [{
+        CodPro: RES,   // field ID
+        ValPro: 569    // value
+      }, {
+        CodPro: RES
+        ValPro: 570
+      },{
+        CodPro: RES
+        ValPro: 860
+      }, ...]
+  */
+  
+  const attributeObject = object.PRO.filter(
+    property => property.CodPro === CodPro,
+  );
+
+  console.log(attributeObject);
+
+  // Check if attribute exists for this room
+  if (!attributeObject) {
+    return null;
+  }
+
+  return attributeObject;
+}
+
 function readXML(xml) {
   return JSON.parse(xml2json.toJson(xml));
 }
 
-module.exports = { convertToArray, getPropertyRawValue, readXML };
+module.exports = { convertToArray, getPropertyRawValue, getPropertyRawValueMultiple, readXML };

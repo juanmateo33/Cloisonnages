@@ -19,7 +19,7 @@ function parseEvent(event) {
   return {
     id: event.NumEve,
     name: event.NomEve,
-    //roomId: misc.getPropertyRawValue(event, "RES"),
+    roomId: misc.getPropertyRawValueMultiple(event, "RES"),
     startDate,
     endDate,
   };

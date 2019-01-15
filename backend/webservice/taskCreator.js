@@ -2,30 +2,32 @@ const moment = require("moment");
 
 const misc = require("./Parsers/misc");
 
-function createTask(event1, event2){
+function createTask(event1, event2, roomId){
 
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
-    if(event1.roomId.length>=3){
-        state1 = 1; 
-    }else {
-        state1 = 2;
+    state1 = 2;
+    state2 = 2;
+    for(i=0;i<event1.roomId.length;i++){
+        if(event1.roomId[i].ValPro==roomId||event1.roomId[i].ValPro==860){
+            state1 = 1;     //State = 1 => Décloisonné
+        }
     }
 
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
-    if(event2.roomId.length>=3){
-        state2 = 1; 
-    }else {
-        state2 = 2;
+    for(i=0;i<event2.roomId.length;i++){
+        if(event2.roomId[i].ValPro==roomId||event2.roomId[i].ValPro==860){
+            state2 = 1;     //State = 1 => Décloisonné
+        }
     }
 
     if(state1===state2){
         return null;
     }
 
-    if(state1===1){
+    if(state1===2){
         return {
             operation: "Decloisonner",
-            room: event1.roomId[0],
+            room: roomId,
             beginning: event1.endDate,
             end: event2.startDate,
         }
@@ -33,13 +35,13 @@ function createTask(event1, event2){
 
     return{
         operation: "Cloisonner",
-        room: event1.roomId[0],
+        room: roomId,
         beginning: event1.endDate,
         end: event2.startDate,
     }
 }
 
-function createTasks(eventArray) {
+function createTasks(eventArray, roomId) {
 
       // Check if there are events at all
     if (!eventArray) return [];
@@ -52,7 +54,7 @@ function createTasks(eventArray) {
     var arrayContent = [];
 
     for (var i = 1; i < eventArray.length-1; i++) {
-        newEvent = createTask(eventArray[i],eventArray[i+1])
+        newEvent = createTask(eventArray[i],eventArray[i+1], roomId)
         if(newEvent!=null){
             arrayContent.push(newEvent);
         }

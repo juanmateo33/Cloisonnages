@@ -37,8 +37,12 @@ class Login extends Component {
         this.fillLocalStorage(resp.data);
       }
 
-    }).then(()=>{this.props.history.push('./tasks');
+    }).then(()=>{
+      this.props.checkAuthentification();
       
+    }).then(()=>{
+      this.props.history.push('./tasks');
+
   }).catch((err)=>
   {console.log(err, 'Wrong username or password');
   this.setState({error:'Le username ou le mot de passe est incorrecte'});  

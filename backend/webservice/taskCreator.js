@@ -1,24 +1,31 @@
 const moment = require("moment");
 
-const config = require("./parsers/translatorConfig").event;
-const misc = require("./parsers/misc");
+const misc = require("./Parsers/misc");
 
 function createTask(event1, event2){
 
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
-    const state1 = misc.getPropertyRawValue(event1, config.room.CodPro);
-
-    //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
-    const state2 = misc.getPropertyRawValue(event2, config.room.CodPro);
-
-    if(state1===state2){
-        return;
+    if(event1.roomId.length>=3){
+        state1 = 1; 
+    }else {
+        state1 = 2;
     }
 
-    if(state1===/*Cloisonné*/""){
+    //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
+    if(event2.roomId.length>=3){
+        state2 = 1; 
+    }else {
+        state2 = 2;
+    }
+
+    if(state1===state2){
+        return null;
+    }
+
+    if(state1===1){
         return {
             operation: "Decloisonner",
-            room: event1.roomId,
+            room: event1.roomId[0],
             beginning: event1.endDate,
             end: event2.startDate,
         }
@@ -26,7 +33,7 @@ function createTask(event1, event2){
 
     return{
         operation: "Cloisonner",
-        room: event1.roomId,
+        room: event1.roomId[0],
         beginning: event1.endDate,
         end: event2.startDate,
     }
@@ -45,10 +52,10 @@ function createTasks(eventArray) {
     var arrayContent = [];
 
     for (var i = 1; i < eventArray.length-1; i++) {
-        createTask(eventArray[i],eventArray[i+1])
-        .then((newEvent) => {
+        newEvent = createTask(eventArray[i],eventArray[i+1])
+        if(newEvent!=null){
             arrayContent.push(newEvent);
-        });
+        }
     }
 
     return arrayContent;

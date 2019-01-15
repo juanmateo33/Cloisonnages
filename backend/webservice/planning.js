@@ -8,6 +8,7 @@ async function getRooms(client, guid) {
     const resourceList = misc.readXML(response.ListerRessourcesResult).ROOT.RES;
     // il faut ne garder que les salles modulables avec Pro: "124:153"
     const newList = [];
+    console.log(Array.isArray(resourceList));
     for (i in resourceList){
       const room=resourceList[i];
       propertyvalue = misc.getPropertyRawValue(room, "124");

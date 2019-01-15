@@ -33,8 +33,6 @@ export default class App extends React.Component {
         const jwtToken = localStorage.getItem('token');
         if (localInfos && jwtToken) {
             this.setState({ userInfos: JSON.parse(localInfos), isAuthenticated: true });
-            } else {
-            this.setState = {};
             }
     }
 
@@ -45,7 +43,7 @@ export default class App extends React.Component {
         return  (<div className="h-100">
                 
                 <Switch>
-                    <Route path="/login" component={Login}/>
+                    <Route path="/login" component={(props)=><Login {...props} checkAuthentification={this.checkAuthentification}/>}/>
                     <PrivateRoute isAuthenticated={isAuthenticated} path="/logout/" component={Logout}/>
                     <PrivateRoute isAuthenticated={isAuthenticated} 
                     component={() => (<div>

@@ -14,51 +14,49 @@ class Tasks extends Component {
 
   constructor() {
     super();
-    this.state = { tasks_shown: [], tasks:[]};
+    this.state = { tasks_shown: [], tasks:[], history: false};
     this.onClickShowAll = this.onClickShowAll.bind(this);
     this.onClickShowMonth = this.onClickShowMonth.bind(this);
     this.onClickShowWeek = this.onClickShowWeek.bind(this);
     this.onClickShowQuarter = this.onClickShowQuarter.bind(this);
+    this.handleError = this.handleError.bind(this);
 
   }
+
+  handleError(err){
+    if (err.response.status===401) {
+    console.log("vous n'êtes plus authentifié"+err.response.status);
+    this.props.history.push('./logout');
+  }}
   
-  fetchTasks(){
-    fetchNextTasks()
+  fetchNextTasks(until){
+    return fetchNextTasks(until)
     .then(tasksfetched => {
-      const tasks = tasksfetched.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
-      this.setState({tasks_shown: tasks, tasks});
+       const tasks = tasksfetched.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
+       return tasks
     }).catch(err=> {console.log("impossible de récupérer les tâches");
-                    console.log(err);
-                    this.props.history.push('./logout');
+                    this.handleError(err);
                   })
   }
 
   fetchAllTasks(){
     fetchAllTasks()
     .then(tasksfetched => {
-      const tasks= tasksfetched.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
-      this.setState({tasks_shown: tasks, tasks});
+      const tasks = tasksfetched.data.sort(((a, b) => new Date(a.end)-new Date(b.end)));
+      this.setState({tasks});
     }).catch(err=> {console.log("impossible de récupérer les tâches");
-                    console.log(err);
-                    this.props.history.push('./logout');
+                  this.handleError(err);
                   })
   }
 
 
 
   onClickShowAll(){
-    this.fetchAllTasks()
+    this.fetchAllTasks();
   }
 
   onClickShowPeriod(date){
-    let tasks_shown = this.state.tasks.slice(); // so that we don't change tasks
-    const len = tasks_shown.length;
-    let i=0;
-    while((i<len)&&((new Date(tasks_shown[i].end))<date)){
-      i++;
-    }
-    tasks_shown.splice(i,tasks_shown.splice(i,tasks_shown.length-i));
-    this.setState({tasks_shown});
+    this.fetchNextTasks(date).then(tasks=>this.setState({tasks}))
   }
 
   onClickShowMonth(){
@@ -84,7 +82,7 @@ class Tasks extends Component {
 
 
   componentWillMount(){
-    this.fetchTasks();
+    this.onClickShowQuarter()
   }
 
   //function updatebutton
@@ -96,16 +94,17 @@ class Tasks extends Component {
       let tasks = this.state.tasks;
       const i = tasks.indexOf(task);
       tasks[i].done = tasks[i].done ? false : true;
-      this.setState({tasks_shown: tasks, tasks});
+      this.setState({tasks});
     }).catch(err=>{console.log("impossible de modifier la tâche");
-                  console.log(err)})
+                  this.handleError(err);
+  })
 }
 
 
   render() {
     let taskItems;
     if(this.state.tasks_shown){
-      taskItems = this.state.tasks_shown.map(task =>{
+      taskItems = this.state.tasks.map(task =>{
         return(
             <TaskItem key={task._id} task={task} handleClick={(task,done)=>this.handleClick(task,done)} />
         )
@@ -114,7 +113,7 @@ class Tasks extends Component {
     return (
       <div className="Tasks">
           <h3 className="ml-2"> Tâches à réaliser</h3>
-          <DateNavBar onClickShowAll={this.onClickShowAll} onClickShowMonth={this.onClickShowMonth} onClickShowWeek={this.onClickShowWeek} onClickShowQuarter={this.onClickShowQuarter}/>
+          <DateNavBar history={this.state.history} onClickShowAll={this.onClickShowAll} onClickShowMonth={this.onClickShowMonth} onClickShowWeek={this.onClickShowWeek} onClickShowQuarter={this.onClickShowQuarter}/>
           <table className="table">
             <thead className="thead-light">
               <tr>

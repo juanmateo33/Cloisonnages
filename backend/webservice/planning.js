@@ -82,9 +82,15 @@ const taskList = taskCreator.createTasks(newList,roomId);
 return taskList;
 }
 
+function uploadTasks(taskList){
+  taskCreate.uploadTasks(taskList);
+}
+
+
 module.exports = {
   getRooms,
   getRoomsFiltered,
   getRoomEvents,
-  getTasks
+  getTasks,
+  uploadTasks
 };

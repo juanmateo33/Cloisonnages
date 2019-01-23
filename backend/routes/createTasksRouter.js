@@ -17,13 +17,15 @@ eventRouter.route('/:roomId')
         //res.send(ListeRessources);
 
             // Get events
-        const ListeEvents = await planning.getTasks(
+        const ListeTasks = await planning.getTasks(
             agendaClient,
             session.guid,
             ListeRessources,
             parseInt(req.params.roomId)
         )
-        res.send(ListeEvents);
+
+        // planning.uploadTasks(ListeTasks)
+        res.send(ListeTasks);
 
         if(session){
             connect.endSession(session);
@@ -31,9 +33,7 @@ eventRouter.route('/:roomId')
      
     } catch (err) {
         next(err)
-  } finally {
-      next();
-  }
+  } 
     
 })
 

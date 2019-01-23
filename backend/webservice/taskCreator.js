@@ -2,6 +2,10 @@ const moment = require("moment");
 
 const misc = require("./Parsers/misc");
 
+const Tasks = require('../models/tasks');
+
+
+
 function createTask(event1, event2, roomId){
 
     //get the state of the room, asking for the room or directly by asking the state (don't know if possible)
@@ -26,7 +30,7 @@ function createTask(event1, event2, roomId){
 
     if(state1===2){
         return {
-            operation: "Decloisonner",
+            operation: "Décloisonner",
             room: roomId,
             beginning: event1.endDate,
             end: event2.startDate,
@@ -67,9 +71,25 @@ function createTasks(eventArray, roomId) {
     if(tasksArray.length<1){
         return;
     }
+    let endDate = new Date();
+    endDate.setMonth(endDate.getMonth()+3);
+    query = {end:{}};
+    query.end['$gte'] = new Date();
+    query.end['$lte'] = endDate;
+    const CurrentTasks = Tasks.find(query);
+    
     for (var i = 0; i< tasksArray.length; i++) {
+        const task = tasksArray[j];
         //Post task into the database
+        for(var j = 0;j<CurrentTasks.lenght; i++) {
+            if (
+                CurrentTasks[j].room!=task.room &&
+                CurrentTasks[j].operation!=task.operation &&
+                CurrentTasks[j].beginning!=task.beginning &&
+                CurrentTasks[j].end!=task.end ){
+                    Tasks.create(tasksArray[i]);
+            }
+        }
     }
   }
-
-  module.exports = { createTask, createTasks };
+  module.exports = { createTask, createTasks, uploadTasks };

@@ -14,7 +14,7 @@ class Tasks extends Component {
 
   constructor() {
     super();
-    this.state = { tasks_shown: [], tasks:[], history: false};
+    this.state = { tasks:[], message:"last refreshed on "};
     this.onClickShowAll = this.onClickShowAll.bind(this);
     this.onClickShowMonth = this.onClickShowMonth.bind(this);
     this.onClickShowWeek = this.onClickShowWeek.bind(this);
@@ -112,8 +112,11 @@ class Tasks extends Component {
     }
     return (
       <div className="Tasks">
-          <h3 className="ml-2"> Tâches à réaliser</h3>
-          <DateNavBar history={this.state.history} onClickShowAll={this.onClickShowAll} onClickShowMonth={this.onClickShowMonth} onClickShowWeek={this.onClickShowWeek} onClickShowQuarter={this.onClickShowQuarter}/>
+        <div className="d-flex bd-highlight mb-3">
+          <h3 className="p-2 bd-highlight"> Tâches à réaliser</h3> 
+          <h6 className="ml-auto mr-4 p-2 bd-highlight">{this.state.message}</h6>
+        </div>          
+        <DateNavBar onClickShowAll={this.onClickShowAll} onClickShowMonth={this.onClickShowMonth} onClickShowWeek={this.onClickShowWeek} onClickShowQuarter={this.onClickShowQuarter}/>
           <table className="table">
             <thead className="thead-light">
               <tr>

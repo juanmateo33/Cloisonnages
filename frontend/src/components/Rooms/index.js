@@ -15,7 +15,7 @@ class Rooms extends Component {
         .then((res)=>{
             const ressourceslist = Array.from(res.data);
             const ressources = ressourceslist.map(ressource =>{
-                return ({NumRes: ressource.NumRes, NomRes: ressource.NomRes})
+                return ({NumRes: ressource.id, NomRes: ressource.name})
               })
             this.setState({ressources});
         })
